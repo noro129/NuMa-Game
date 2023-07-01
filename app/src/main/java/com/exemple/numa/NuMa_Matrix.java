@@ -7,7 +7,7 @@ public class NuMa_Matrix {
     static final int BEGINNER = 4;
     static final int EASY = 6;
     static final int MEDIUM = 8;
-    static final int HARD = 12;
+    static final int HARD = 10;
 
 
     static private ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();

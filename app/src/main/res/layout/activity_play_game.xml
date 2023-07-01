@@ -11,7 +11,7 @@
         android:id="@+id/columnsResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="15dp"
         android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@+id/matrixToFill"
         app:layout_constraintEnd_toEndOf="@+id/matrixToFill"
@@ -21,18 +21,43 @@
 
     </LinearLayout>
 
-
     <LinearLayout
         android:id="@+id/rowsResults"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:layout_marginEnd="15dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="@+id/matrixToFill"
         app:layout_constraintEnd_toStartOf="@+id/matrixToFill"
         app:layout_constraintTop_toTopOf="@+id/matrixToFill"
         app:layout_constraintVertical_bias="0.494">
 
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/columnsResultsCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="@+id/matrixToFill"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="@+id/matrixToFill"
+        app:layout_constraintTop_toBottomOf="@+id/matrixToFill">
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/rowsResultsCurrent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/columnsResultsCurrent"
+        app:layout_constraintStart_toEndOf="@+id/matrixToFill"
+        app:layout_constraintTop_toBottomOf="@+id/columnsResults"
+        app:layout_constraintVertical_bias="0.493">
 
     </LinearLayout>
 
