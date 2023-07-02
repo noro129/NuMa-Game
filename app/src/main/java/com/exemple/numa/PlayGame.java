@@ -4,20 +4,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
-public class PlayGame extends AppCompatActivity {
+public class PlayGame extends AppCompatActivity implements View.OnClickListener {
 
     TextView num;
 
@@ -26,6 +23,10 @@ public class PlayGame extends AppCompatActivity {
     int levelChosen;
     LinearLayout columnsResults,rowsResults,matrixToFill,columnsResultsCurrent,rowsResultsCurrent;
 
+    Button back,solve,oneLine,reset;
+    boolean oneLineUsed;
+    int i_row,i_column;
+
     ArrayList<Integer> columns_results,rows_results;
     ArrayList<ArrayList<Integer>> matrix,solution_matrix,removed_numbers;
     @Override
@@ -33,9 +34,12 @@ public class PlayGame extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_play_game);
 
+        oneLineUsed=false;
+        i_column=0;
 
 
-        levelChosen = NuMa_Matrix.EASY;
+        levelChosen = stringToInt(this.getIntent().getStringExtra("levelChosen"));
+
         if (levelChosen==NuMa_Matrix.BEGINNER){
             numWidthHeight=45;
             numTextSizeInSp=30;
@@ -70,6 +74,17 @@ public class PlayGame extends AppCompatActivity {
         matrixToFill = findViewById(R.id.matrixToFill);
         columnsResultsCurrent = findViewById(R.id.columnsResultsCurrent);
         rowsResultsCurrent = findViewById(R.id.rowsResultsCurrent);
+        back = findViewById(R.id.back);
+        solve = findViewById(R.id.solve);
+        oneLine = findViewById(R.id.oneLine);
+        reset = findViewById(R.id.reset);
+
+        back.setOnClickListener(this);
+        solve.setOnClickListener(this);
+        oneLine.setOnClickListener(this);
+        reset.setOnClickListener(this);
+
+
 
         for(Integer i : columns_results){
             num = new TextView(this);
@@ -94,7 +109,7 @@ public class PlayGame extends AppCompatActivity {
                 sum+=in;
                 num = new TextView(this);
                 textViewModifsOnNum(num,String.valueOf(in),1);
-                setNumClickabale(this,num,i,j);
+                setNumClickFunction(this,num,i,j);
                 aRow.addView(num);
                 j++;
             }
@@ -156,7 +171,7 @@ public class PlayGame extends AppCompatActivity {
         num.setBackgroundResource(R.drawable.single_node);
     }
 
-    public void setNumClickabale(Context context,TextView numb,int i,int j){
+    public void setNumClickFunction(Context context,TextView numb,int i,int j){
         numb.setClickable(true);
         numb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -325,4 +340,45 @@ public class PlayGame extends AppCompatActivity {
     public void gameFinished(){
         finish();
     }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()){
+            case R.id.back:
+                gameFinished();
+                break;
+            case R.id.oneLine:
+                if(oneLineUsed){
+                    if(i_row==levelChosen){
+                        showColumn(i_column);
+                    }else{
+                        showRow(i_row);
+                    }
+                    break;
+                }
+                for(i_row=0 ; i_row<levelChosen ; i_row++){
+                    if(!checkForRow(i_row)){
+                        break;
+                    }
+                }
+                if(i_row==levelChosen){
+                    for(i_column=0 ; i_column<levelChosen ; i_column++){
+                        if(!checkForColumn(i_column)){
+                            break;
+                        }
+                    }
+                }
+                oneLineUsed=true;
+                oneLine.setVisibility(View.INVISIBLE);
+                break;
+            case R.id.reset:
+                oneLine.setVisibility(View.VISIBLE);
+                break;
+            case R.id.solve:
+                break;
+        }
+    }
+
+    public void showRow(int row){};
+    public void showColumn(int column){};
 }

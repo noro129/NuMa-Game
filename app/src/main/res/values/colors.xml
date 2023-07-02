@@ -8,10 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="background1">#000F1B</color>
-    <color name="foreground1">#59BAEF</color>
-    <color name="foreground1Alpha">#5f59BAEF</color>
+    <color name="foreground1">#2EAEF3</color>
+    <color name="foreground1Alpha">#5f2EAEF3</color>
     <color name="foreground2">#00FFFF</color>
     <color name="foreground3">#7B9191</color>
-    <color name="foreground4">#95FF00</color>
-    <color name="foreground4Alpha">#5f95FF00</color>
+    <color name="foreground4">#FF9900</color>
+    <color name="foreground4Alpha">#6DFF9900</color>
 </resources>
