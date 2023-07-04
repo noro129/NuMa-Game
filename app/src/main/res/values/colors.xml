@@ -11,7 +11,7 @@
     <color name="foreground1">#2EAEF3</color>
     <color name="foreground1Alpha">#5f2EAEF3</color>
     <color name="foreground2">#00FFFF</color>
-    <color name="foreground3">#7B9191</color>
-    <color name="foreground4">#FF9900</color>
-    <color name="foreground4Alpha">#6DFF9900</color>
+    <color name="foreground3">#8A8A8A</color>
+    <color name="foreground4">#FF6600</color>
+    <color name="foreground4Alpha">#6DFF6600</color>
 </resources>

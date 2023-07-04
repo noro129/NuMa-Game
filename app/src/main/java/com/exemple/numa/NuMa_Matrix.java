@@ -10,14 +10,20 @@ public class NuMa_Matrix {
     static final int HARD = 10;
 
 
-    static private ArrayList<ArrayList<Integer>> matrix = new ArrayList<>();
-    static private ArrayList<ArrayList<Integer>> solution_matrix = new ArrayList<>();
-    static private ArrayList<Integer> columns_results = new ArrayList<>();
-    static private ArrayList<Integer> rows_results = new ArrayList<>();
+    private ArrayList<ArrayList<Integer>> matrix;
+    private ArrayList<ArrayList<Integer>> solution_matrix;
+    private ArrayList<Integer> columns_results;
+    private ArrayList<Integer> rows_results;
 
     static Random random = new Random();
 
-    static void FillMatrix(int difficulty){
+    NuMa_Matrix(){
+        matrix = new ArrayList<>();
+        solution_matrix = new ArrayList<>();
+        columns_results = new ArrayList<>();
+        rows_results = new ArrayList<>();
+    }
+    void FillMatrix(int difficulty){
         for(int j=0;j<difficulty;j++){
             rows_results.add(0);
             columns_results.add(0);
@@ -30,10 +36,10 @@ public class NuMa_Matrix {
             matrix.add(row);
             solution_matrix.add(solution_row);
         }
-        FillSolutionMatrix(difficulty);
+        this.FillSolutionMatrix(difficulty);
     }
 
-    private static void FillSolutionMatrix(int difficulty){
+    private void FillSolutionMatrix(int difficulty){
         for(int i=0;i<difficulty;i++){
             int rand = random.nextInt(difficulty)+1;
             int sum=0;
@@ -55,19 +61,19 @@ public class NuMa_Matrix {
         }
     }
 
-    public static ArrayList<ArrayList<Integer>> getMatrix() {
+    public ArrayList<ArrayList<Integer>> getMatrix() {
         return matrix;
     }
 
-    public static ArrayList<ArrayList<Integer>> getSolution_matrix() {
+    public ArrayList<ArrayList<Integer>> getSolution_matrix() {
         return solution_matrix;
     }
 
-    public static ArrayList<Integer> getColumns_results() {
+    public ArrayList<Integer> getColumns_results() {
         return columns_results;
     }
 
-    public static ArrayList<Integer> getRows_results() {
+    public ArrayList<Integer> getRows_results() {
         return rows_results;
     }
 }

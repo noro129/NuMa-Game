@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -16,6 +17,8 @@ import java.util.ArrayList;
 
 public class PlayGame extends AppCompatActivity implements View.OnClickListener {
 
+    NuMa_Matrix game;
+
     TextView num;
 
     int numWidthHeight,numTextSizeInSp;
@@ -24,7 +27,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     LinearLayout columnsResults,rowsResults,matrixToFill,columnsResultsCurrent,rowsResultsCurrent;
 
     Button back,solve,oneLine,reset;
-    boolean oneLineUsed;
+    boolean oneLineUsed,congrats;
     int i_row,i_column;
 
     ArrayList<Integer> columns_results,rows_results;
@@ -32,9 +35,11 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().hide();
         setContentView(R.layout.activity_play_game);
 
         oneLineUsed=false;
+        congrats=true;
         i_column=0;
 
 
@@ -42,16 +47,16 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
 
         if (levelChosen==NuMa_Matrix.BEGINNER){
             numWidthHeight=45;
-            numTextSizeInSp=30;
+            numTextSizeInSp=28;
         } else if (levelChosen==NuMa_Matrix.EASY){
             numWidthHeight=40;
-            numTextSizeInSp=25;
+            numTextSizeInSp=22;
         } else if (levelChosen==NuMa_Matrix.MEDIUM){
             numWidthHeight=35;
-            numTextSizeInSp=20;
+            numTextSizeInSp=18;
         } else if (levelChosen==NuMa_Matrix.HARD) {
             numWidthHeight=30;
-            numTextSizeInSp=20;
+            numTextSizeInSp=16;
         }
 
         removed_numbers = new ArrayList<>();
@@ -63,11 +68,13 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             removed_numbers.add(_row);
         }
 
-        NuMa_Matrix.FillMatrix(levelChosen);
-        columns_results = NuMa_Matrix.getColumns_results();
-        rows_results = NuMa_Matrix.getRows_results();
-        matrix = NuMa_Matrix.getMatrix();
-        solution_matrix = NuMa_Matrix.getSolution_matrix();
+        game = new NuMa_Matrix();
+        game.FillMatrix(levelChosen);
+        columns_results = game.getColumns_results();
+        rows_results = game.getRows_results();
+        matrix = game.getMatrix();
+        solution_matrix = game.getSolution_matrix();
+
 
         columnsResults = findViewById(R.id.columnsResults);
         rowsResults = findViewById(R.id.rowsResults);
@@ -154,11 +161,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     public void textViewModifsOnNum(TextView num,String text,int color_option){
         num.setText(text);
         num.setId(View.generateViewId());
-        if(text.length()<=2){
-            num.setTextSize(TypedValue.COMPLEX_UNIT_SP, numTextSizeInSp);
-        }else{
-            num.setTextSize(TypedValue.COMPLEX_UNIT_SP, numTextSizeInSp-5);
-        }
+        num.setTextSize(TypedValue.COMPLEX_UNIT_SP, numTextSizeInSp);
         num.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
         num.setGravity(Gravity.CENTER);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(dpToPx(numWidthHeight), dpToPx(numWidthHeight));
@@ -173,6 +176,7 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
 
     public void setNumClickFunction(Context context,TextView numb,int i,int j){
         numb.setClickable(true);
+        numb.setSoundEffectsEnabled(false);
         numb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -338,14 +342,16 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
     }
 
     public void gameFinished(){
-        finish();
+        if(congrats){
+            finish();
+        }
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()){
             case R.id.back:
-                gameFinished();
+                finish();
                 break;
             case R.id.oneLine:
                 if(oneLineUsed){
@@ -354,16 +360,19 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                     }else{
                         showRow(i_row);
                     }
+                    oneLine.setVisibility(View.INVISIBLE);
                     break;
                 }
                 for(i_row=0 ; i_row<levelChosen ; i_row++){
                     if(!checkForRow(i_row)){
+                        showRow(i_row);
                         break;
                     }
                 }
                 if(i_row==levelChosen){
                     for(i_column=0 ; i_column<levelChosen ; i_column++){
                         if(!checkForColumn(i_column)){
+                            showColumn(i_column);
                             break;
                         }
                     }
@@ -373,12 +382,41 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
                 break;
             case R.id.reset:
                 oneLine.setVisibility(View.VISIBLE);
+                for(int i=0 ; i<levelChosen ; i++){
+                    for(int j=0 ; j<levelChosen ; j++){
+                        if(removed_numbers.get(i).get(j)==1){
+                            ((LinearLayout)matrixToFill.getChildAt(i)).getChildAt(j).performClick();
+                        }
+                    }
+                }
                 break;
             case R.id.solve:
+                oneLine.setVisibility(View.INVISIBLE);
+                reset.setVisibility(View.INVISIBLE);
+                congrats=false;
+                for(int i=0 ; i<levelChosen ; i++){
+                    for(int j=0 ; j<levelChosen ; j++){
+                        if(solution_matrix.get(i).get(j)==removed_numbers.get(i).get(j)){
+                            ((LinearLayout)matrixToFill.getChildAt(i)).getChildAt(j).performClick();
+                        }
+                    }
+                }
                 break;
         }
     }
 
-    public void showRow(int row){};
-    public void showColumn(int column){};
+    public void showRow(int row){
+        for(int j=0 ; j<levelChosen ; j++){
+            if(solution_matrix.get(row).get(j)==removed_numbers.get(row).get(j)){
+                ((LinearLayout)matrixToFill.getChildAt(row)).getChildAt(j).performClick();
+            }
+        }
+    };
+    public void showColumn(int column){
+        for(int j=0 ; j<levelChosen ; j++){
+            if(solution_matrix.get(j).get(column)==removed_numbers.get(j).get(column)){
+                ((LinearLayout)matrixToFill.getChildAt(j)).getChildAt(column).performClick();
+            }
+        }
+    };
 }
