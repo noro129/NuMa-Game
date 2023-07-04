@@ -118,8 +118,7 @@
         app:layout_constraintBottom_toTopOf="@+id/tutorial"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/menuLogo"
-        android:background="@color/foreground1Alpha">
+        app:layout_constraintTop_toBottomOf="@+id/menuLogo">
 
         <TextView
             android:id="@+id/levelBeginner"
