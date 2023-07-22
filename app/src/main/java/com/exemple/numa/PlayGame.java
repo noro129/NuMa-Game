@@ -419,4 +419,9 @@ public class PlayGame extends AppCompatActivity implements View.OnClickListener 
             }
         }
     };
+
+    public void onDestroy() {
+        super.onDestroy();
+
+    }
 }

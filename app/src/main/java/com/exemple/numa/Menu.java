@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 public class Menu extends AppCompatActivity implements View.OnClickListener {
 
+
     int levelChosen;
     Button tutorial,start,settings,exit;
     TextView slideLeft,slideRight,
@@ -64,6 +65,7 @@ public class Menu extends AppCompatActivity implements View.OnClickListener {
                 break;
             case R.id.exit:
                 System.exit(0);
+                finish();
                 break;
             case R.id.slideLeft:
                 if (levelChosen==NuMa_Matrix.HARD) {
